@@ -1,6 +1,7 @@
 # Granulacja linii łamanej - projekt 
 
 Przedmiot: Nowe trendy w informatyce
+
 Autorzy: 
 - Piotr SOROCIAK
 - Sebastian RICHTER
