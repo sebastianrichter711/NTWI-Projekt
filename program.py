@@ -1,4 +1,5 @@
 # Importing the necessary libraries
+from cmath import sqrt
 from matplotlib import pyplot as plt
 import numpy as np
 
@@ -29,6 +30,48 @@ dt = np.array([
 # Preparing X and y from the given data
 x = dt[:, 0].reshape(len(dt), 1)
 y = dt[:, 1].reshape(len(dt), 1)
+
+min_element = np.amin(x)
+print(min_element)
+
+max_element = np.amax(x)
+print(max_element)
+
+min_element_index = np.where(x == np.amin(x))
+print(min_element_index[0])
+
+max_element_index = np.where(x == np.amax(x))
+print(max_element_index[0])
+
+first_point = dt[min_element_index[0]]
+last_point = dt[max_element_index[0]]
+print("Points")
+print(first_point[0])
+print(last_point[0])
+
+'''
+#Distance between points
+x_sum = last_point[0][0] - first_point[0][0]
+y_sum = last_point[0][1] - first_point[0][1]
+pow_x_sum = pow(x_sum,2)
+pow_y_sum = pow(y_sum,2)
+distance = sqrt(pow_x_sum + pow_y_sum)
+print(distance)
+'''
+
+#Line equation
+a = (first_point[0][1] - last_point[0][1]) / (first_point[0][0] - last_point[0][0])
+b = 1 #coefficient at y
+c = first_point[0][1] - (a*first_point[0][0])
+print(a)
+print(c)
+
+current_index=0
+current_x_val=0.0
+current_y_val=0.0
+max_distance = 0.0
+
+
 
 # Plotting the data points and the best fit line
 plt.scatter(x, y)
