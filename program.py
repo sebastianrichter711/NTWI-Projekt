@@ -49,6 +49,43 @@ points = np.array([
         [7, 5],
         [8, -3]
 ])
+
+MAX_DISTANCE = 3
+
+def find_most_distant_points(points, first_index, last_index):
+    most_distant_points = np.zeros([0,2])
+    current_x_val=0.0
+    current_y_val=0.0
+    max_distance = 0.0
+    max_el_index=0
+    #Line equation
+    first_point = points[first_index]
+    last_point = points[last_index]
+    a = ((first_point[1] - last_point[1]) / (first_point[0] - last_point[0]))*(-1)
+    b = 1 #coefficient at y
+    c = (first_point[1] - (a*first_point[0]))*(-1)
+
+    for el in range(first_index, last_index):
+        if el != first_index and el != last_index:
+            current_x_val = points[el][0]
+            current_y_val = points[el][1]
+            numerator = abs((a*current_x_val) + (b*current_y_val) + c)
+            denominator = sqrt(pow(a,2) + pow(b,2))
+            distance = numerator/denominator
+            if distance > max_distance:
+                max_distance = distance
+                max_el_index = el
+    
+    # print (first_index, last_index, max_el_index)
+    if max_distance > MAX_DISTANCE:
+        most_distant_point = points[max_el_index]
+        most_distant_points = np.append(most_distant_points, most_distant_point)
+        if max_el_index - first_index > 1:
+            most_distant_points = np.append(most_distant_points, find_most_distant_points(points, first_index, max_el_index))
+        if last_index - max_el_index > 1:
+            most_distant_points = np.append(most_distant_points, find_most_distant_points(points, max_el_index, last_index))
+    return most_distant_points
+
 # Preparing the data to be computed and plotted
 def broken_line_granulation(points):
 
@@ -58,16 +95,16 @@ def broken_line_granulation(points):
 
     sorted_points = points[points[:,0].argsort()]
     print(sorted_points)
-
+    print("\n")
     array_size = len(points)
-    print("Array size:")
-    print(array_size)
+    # print("Array size:")
+    # print(array_size)
 
     first_point = sorted_points[0]
     last_point = sorted_points[array_size-1]
-    print("Points")
-    print(first_point)
-    print(last_point)
+    # print("Points")
+    # print(first_point)
+    # print(last_point)
 
     '''
     #Distance between points
@@ -80,43 +117,21 @@ def broken_line_granulation(points):
     print(distance)
     '''
 
-    #Line equation
-    a = ((first_point[1] - last_point[1]) / (first_point[0] - last_point[0]))*(-1)
-    b = 1 #coefficient at y
-    c = (first_point[1] - (a*first_point[0]))*(-1)
-    print(a)
-    print(c)
-
-    current_x_val=0.0
-    current_y_val=0.0
-    max_distance = 0.0
-    max_el_index=0
-
-    for el in range(array_size):
-        if el != 0 and el != array_size-1:
-            current_x_val = sorted_points[el][0]
-            current_y_val = sorted_points[el][1]
-            numerator = abs((a*current_x_val) + (b*current_y_val) + c)
-            denominator = sqrt(pow(a,2) + pow(b,2))
-            distance = numerator/denominator
-            if distance > max_distance:
-                max_distance = distance
-                max_el_index = el
-                
-    searched_points = np.array([
-        first_point,
-        last_point,
-        sorted_points[max_el_index]
-    ]) 
+    searched_points = find_most_distant_points(sorted_points, 0, array_size-1)
+    searched_points = np.append(searched_points, first_point)
+    searched_points = np.append(searched_points, last_point)
+    array_length = int(len(searched_points)/2)
+    # print("dlugosc tablicy szukanych punktow: ", array_length)
+    searched_points = np.reshape(searched_points, (array_length, 2))
 
     sorted_searched_points = searched_points[searched_points[:,0].argsort()]
 
-    print("Sorted Searched points")
+    # print("Sorted Searched points")
     print(sorted_searched_points)
 
     sorted_searched_points_array_size = len(sorted_searched_points)
-    print("Array size:")
-    print(sorted_searched_points_array_size)
+    # print("Array size:")
+    # print(sorted_searched_points_array_size)
 
     # Plotting the data points and the best fit line
     plt.scatter(x, y)
