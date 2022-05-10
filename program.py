@@ -1,6 +1,6 @@
 # Importing the necessary libraries
 from cmath import sqrt
-from matplotlib import pyplot as plt
+import matplotlib.pyplot as plt
 import numpy as np
 
 '''
@@ -64,6 +64,8 @@ def find_most_distant_points(points, first_index, last_index):
     a = ((first_point[1] - last_point[1]) / (first_point[0] - last_point[0]))*(-1)
     b = 1 #coefficient at y
     c = (first_point[1] - (a*first_point[0]))*(-1)
+    print(a)
+    print(c)
 
     for el in range(first_index, last_index):
         if el != first_index and el != last_index:
@@ -92,7 +94,7 @@ def broken_line_granulation(points):
     # Preparing X and y from the given data
     x = points[:, 0].reshape(len(points), 1)
     y = points[:, 1].reshape(len(points), 1)
-
+    
     sorted_points = points[points[:,0].argsort()]
     print(sorted_points)
     print("\n")
@@ -126,7 +128,6 @@ def broken_line_granulation(points):
 
     sorted_searched_points = searched_points[searched_points[:,0].argsort()]
 
-    # print("Sorted Searched points")
     print(sorted_searched_points)
 
     sorted_searched_points_array_size = len(sorted_searched_points)
@@ -136,24 +137,40 @@ def broken_line_granulation(points):
     # Plotting the data points and the best fit line
     plt.scatter(x, y)
 
-    for i in range(array_size-1):
-        x_val = [sorted_points[i][0], sorted_points[i+1][0]]
-        y_val = [sorted_points[i][1], sorted_points[i+1][1]]
-        plt.plot(x_val,y_val,'y')
-        
+    #for i in range(array_size-1):
+    #    x_val = [sorted_points[i][0], sorted_points[i+1][0]]
+    #    y_val = [sorted_points[i][1], sorted_points[i+1][1]]
+    #    plt.plot(x_val,y_val,'y')
+            
     #x_first_last = [first_point[0], last_point[0]] - to draw a line from a start point to end point 
     #y_first_last = [first_point[1], last_point[1]]
     #plt.plot(x_first_last,y_first_last,'b')
 
-    for k in range(sorted_searched_points_array_size-1):
-        x_value = [sorted_searched_points[k][0], sorted_searched_points[k+1][0]]
-        y_value = [sorted_searched_points[k][1], sorted_searched_points[k+1][1]]
-        plt.plot(x_value,y_value,'r')
+    #for k in range(sorted_searched_points_array_size-1):
+    #    x_value = [sorted_searched_points[k][0], sorted_searched_points[k+1][0]]
+    #    y_value = [sorted_searched_points[k][1], sorted_searched_points[k+1][1]]
+    #    plt.plot(x_value,y_value,'r')
+    
+    x_values=[]
+    y_values=[]
+    sorted_x_values=[]
+    sorted_y_values=[]
+    
+    for i in range(array_size):
+        x_values.append(sorted_points[i][0])
+        y_values.append(sorted_points[i][1]) 
+    
+    for k in range(sorted_searched_points_array_size):
+        sorted_x_values.append(sorted_searched_points[k][0])
+        sorted_y_values.append(sorted_searched_points[k][1])
+    
         
     plt.title('Wykres granulacji linii łamanej')
     plt.xlabel('X')
     plt.ylabel('Y')
-
+    plt.plot(x_values, y_values, 'o-', color='blue', label='Linia wejściowa')
+    plt.plot(sorted_x_values, sorted_y_values, 'o-', color='red', label='Linia przybliżona')
+    plt.legend()
     plt.show()
     
 broken_line_granulation(points)
