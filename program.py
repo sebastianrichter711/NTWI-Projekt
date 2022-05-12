@@ -3,57 +3,77 @@ from cmath import sqrt
 import matplotlib.pyplot as plt
 import numpy as np
 
-'''
+
+# points = np.array([
+#         [-11, 8],
+#         [-10, 6],
+#         [-9, 7],
+#         [-8, 4],
+#         [-7, 2.5],
+#         [-6, 0],
+#         [-5, 3],
+#         [-4, 0],
+#         [-3, 1],
+#         [-2, -4],
+#         [-1, 2],
+#         [0, 3],
+#         [1, 5],
+#         [2, 7],
+#         [3, -3],
+#         [4, 0.5],
+#         [5, 2.5],
+#         [6, 4],
+#         [7, 0],
+#         [8, -4]
+# ])
+
 points = np.array([
-        [-11, 8],
-        [-10, 6],
-        [-9, 7],
-        [-8, 4],
-        [-7, 2.5],
-        [-6, 0],
-        [-5, 3],
-        [-4, 0],
-        [-3, 1],
-        [-2, -4],
-        [-1, 2],
-        [0, 3],
+        [5,-0.2],
+        [4,0.3],
+        [3,-0.2],
+        [2,0.2],
+        [1,0],
+        [0, 0.3],
+        [0.1, 1],
+        [0, 2],
+        [-0.1, 3],
+        [0, 4],
+        [0.1, 5],
         [1, 5],
-        [2, 7],
-        [3, -3],
-        [4, 0.5],
-        [5, 2.5],
-        [6, 4],
-        [7, 0],
-        [8, -4]
+        [2, 5.1],
+        [3, 4.9],
+        [4, 5],
+        [5.1, 5.1]
 ])
-'''
-points = np.array([
-        [1, 4],
-        [-11, -3],
-        [5, 8],
-        [2, 6],
-        [1.5, 8],
-        [-3, -3],
-        [7, 11],
-        [-1, 7],
-        [3.25, -6],
-        [8, 7],
-        [4, 0],
-        [-2, 1],
-        [3, 5],
-        [10, 2],
-        [1.25, 6],
-        [-10, 0],
-        [3.5, 8],
-        [6, 2],
-        [7.5, 5],
-        [9, -3]
-])
+
+# points = np.array([
+#         [1, 4],
+#         [-11, -3],
+#         [5, 8],
+#         [2, 6],
+#         [1.5, 8],
+#         [-3, -3],
+#         [7, 11],
+#         [-1, 7],
+#         [3.25, -6],
+#         [8, 7],
+#         [4, 0],
+#         [-2, 1],
+#         [3, 5],
+#         [10, 2],
+#         [1.25, 6],
+#         [-10, 0],
+#         [3.5, 8],
+#         [6, 2],
+#         [7.5, 5],
+#         [9, -3]
+# ])
 
 MAX_DISTANCE = 3
+searched_points = np.empty([0,2])
 
 def find_most_distant_points(points, first_index, last_index):
-    most_distant_points = np.zeros([0,2])
+    most_distant_points = np.empty([0,2])
     current_x_val=0.0
     current_y_val=0.0
     max_distance = 0.0
@@ -81,21 +101,21 @@ def find_most_distant_points(points, first_index, last_index):
     # print (first_index, last_index, max_el_index)
     if max_distance > MAX_DISTANCE:
         most_distant_point = points[max_el_index]
-        most_distant_points = np.append(most_distant_points, most_distant_point)
         if max_el_index - first_index > 1:
             most_distant_points = np.append(most_distant_points, find_most_distant_points(points, first_index, max_el_index))
+        most_distant_points = np.append(most_distant_points, most_distant_point)
         if last_index - max_el_index > 1:
             most_distant_points = np.append(most_distant_points, find_most_distant_points(points, max_el_index, last_index))
     return most_distant_points
 
 # Preparing the data to be computed and plotted
-def broken_line_granulation(points):
+def broken_line_granulation(searched_points,points):
 
     # Preparing X and y from the given data
     x = points[:, 0].reshape(len(points), 1)
     y = points[:, 1].reshape(len(points), 1)
     
-    sorted_points = points[points[:,0].argsort()]
+    sorted_points = points
     print(sorted_points)
     print("\n")
     array_size = len(points)
@@ -118,15 +138,16 @@ def broken_line_granulation(points):
     print("Distance:")
     print(distance)
     '''
-
-    searched_points = find_most_distant_points(sorted_points, 0, array_size-1)
     searched_points = np.append(searched_points, first_point)
+    searched_points = np.append(searched_points, find_most_distant_points(sorted_points, 0, array_size-1))
+    print("As")
+    print(searched_points[0])
     searched_points = np.append(searched_points, last_point)
     array_length = int(len(searched_points)/2)
     # print("dlugosc tablicy szukanych punktow: ", array_length)
     searched_points = np.reshape(searched_points, (array_length, 2))
 
-    sorted_searched_points = searched_points[searched_points[:,0].argsort()]
+    sorted_searched_points = searched_points
 
     print(sorted_searched_points)
 
@@ -173,4 +194,4 @@ def broken_line_granulation(points):
     plt.legend()
     plt.show()
     
-broken_line_granulation(points)
+broken_line_granulation(searched_points, points)
