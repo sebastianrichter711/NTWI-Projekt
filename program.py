@@ -86,7 +86,7 @@ def find_most_distant_points(points, first_index, last_index):
     c = (first_point[1] - (a*first_point[0]))
     # print(a)
     # print(c)
-    print("kolejne najdalsze odleglosci w petli: ")
+    print("kolejne najdalsze odleglosci w petli z indeksami punktow: ")
     for el in range(first_index, last_index):
         if el != first_index and el != last_index:
             current_x_val = points[el][0]
@@ -96,8 +96,8 @@ def find_most_distant_points(points, first_index, last_index):
             distance = numerator/denominator
             if distance > max_distance:
                 max_distance = distance
-                print(max_distance)
                 max_el_index = el
+                print(max_el_index, max_distance)
     print("info o najdalszym punkcie: ")
     print (first_index, last_index, max_el_index, max_distance)
     print("\n")
