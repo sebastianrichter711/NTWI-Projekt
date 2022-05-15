@@ -69,7 +69,7 @@ points = np.array([
 #         [9, -3]
 # ])
 
-MAX_DISTANCE = 3
+MAX_DISTANCE = 0
 searched_points = np.empty([0,2])
 
 def find_most_distant_points(points, first_index, last_index):
@@ -81,12 +81,12 @@ def find_most_distant_points(points, first_index, last_index):
     #Line equation
     first_point = points[first_index]
     last_point = points[last_index]
-    a = ((first_point[1] - last_point[1]) / (first_point[0] - last_point[0]))*(-1)
+    a = ((first_point[1] - last_point[1]) / (first_point[0] - last_point[0]))
     b = 1 #coefficient at y
-    c = (first_point[1] - (a*first_point[0]))*(-1)
-    print(a)
-    print(c)
-
+    c = (first_point[1] - (a*first_point[0]))
+    # print(a)
+    # print(c)
+    print("kolejne najdalsze odleglosci w petli: ")
     for el in range(first_index, last_index):
         if el != first_index and el != last_index:
             current_x_val = points[el][0]
@@ -96,9 +96,11 @@ def find_most_distant_points(points, first_index, last_index):
             distance = numerator/denominator
             if distance > max_distance:
                 max_distance = distance
+                print(max_distance)
                 max_el_index = el
-    
-    # print (first_index, last_index, max_el_index)
+    print("info o najdalszym punkcie: ")
+    print (first_index, last_index, max_el_index, max_distance)
+    print("\n")
     if max_distance > MAX_DISTANCE:
         most_distant_point = points[max_el_index]
         if max_el_index - first_index > 1:
