@@ -27,49 +27,49 @@ import numpy as np
 #         [8, -4]
 # ])
 
-points = np.array([
-        [5,-0.2],
-        [4,0.3],
-        [3,-0.2],
-        [2,0.2],
-        [1,0],
-        [0, 0.3],
-        [0.1, 1],
-        [0, 2],
-        [-0.1, 3],
-        [0, 4],
-        [0.1, 5],
-        [1, 5],
-        [2, 5.1],
-        [3, 4.9],
-        [4, 5],
-        [5.1, 5.1]
-])
-
 # points = np.array([
-#         [1, 4],
-#         [-11, -3],
-#         [5, 8],
-#         [2, 6],
-#         [1.5, 8],
-#         [-3, -3],
-#         [7, 11],
-#         [-1, 7],
-#         [3.25, -6],
-#         [8, 7],
-#         [4, 0],
-#         [-2, 1],
-#         [3, 5],
-#         [10, 2],
-#         [1.25, 6],
-#         [-10, 0],
-#         [3.5, 8],
-#         [6, 2],
-#         [7.5, 5],
-#         [9, -3]
+#         [5,-0.2],
+#         [4,0.3],
+#         [3,-0.2],
+#         [2,0.2],
+#         [1,0],
+#         [0, 0.3],
+#         [0.1, 1],
+#         [0, 2],
+#         [-0.1, 3],
+#         [0, 4],
+#         [0.1, 5],
+#         [1, 5],
+#         [2, 5.1],
+#         [3, 4.9],
+#         [4, 5],
+#         [5, 5]
 # ])
 
-MAX_DISTANCE = 0
+points = np.array([
+        [1, 4],
+        [-11, -3],
+        [5, 8],
+        [2, 6],
+        [1.5, 8],
+        [-3, -3],
+        [7, 11],
+        [-1, 7],
+        [3.25, -6],
+        [8, 7],
+        [4, 0],
+        [-2, 1],
+        [3, 5],
+        [10, 2],
+        [1.25, 6],
+        [-10, 0],
+        [3.5, 8],
+        [6, 2],
+        [7.5, 5],
+        [9, -3]
+])
+
+MAX_DISTANCE = 3
 searched_points = np.empty([0,2])
 
 def find_most_distant_points(points, first_index, last_index):
@@ -78,11 +78,16 @@ def find_most_distant_points(points, first_index, last_index):
     current_y_val=0.0
     max_distance = 0.0
     max_el_index=0
+    x=0.0
     #Line equation
     first_point = points[first_index]
     last_point = points[last_index]
-    a = ((first_point[1] - last_point[1]) / (first_point[0] - last_point[0]))
-    b = 1 #coefficient at y
+    if (first_point[0] - last_point[0]) == 0:
+        a=1
+        x = first_point[0] 
+    else:
+        a = ((first_point[1] - last_point[1]) / (first_point[0] - last_point[0]))
+    b = -1 #coefficient at y
     c = (first_point[1] - (a*first_point[0]))
     # print(a)
     # print(c)
@@ -93,7 +98,10 @@ def find_most_distant_points(points, first_index, last_index):
             current_y_val = points[el][1]
             numerator = abs((a*current_x_val) + (b*current_y_val) + c)
             denominator = sqrt(pow(a,2) + pow(b,2))
-            distance = numerator/denominator
+            if (first_point[0] - last_point[0]) == 0:
+                distance = x - current_x_val
+            else:
+                distance = numerator/denominator
             if distance > max_distance:
                 max_distance = distance
                 max_el_index = el
