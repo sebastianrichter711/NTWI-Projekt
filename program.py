@@ -99,7 +99,7 @@ def find_most_distant_points(points, first_index, last_index):
             numerator = abs((a*current_x_val) + (b*current_y_val) + c)
             denominator = sqrt(pow(a,2) + pow(b,2))
             if (first_point[0] - last_point[0]) == 0:
-                distance = x - current_x_val
+                distance = abs(x - current_x_val)
             else:
                 distance = numerator/denominator
             if distance > max_distance:
