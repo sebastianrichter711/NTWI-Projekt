@@ -15,5 +15,7 @@ oryginalną linią łamaną a przybliżeniem był jak najmniejszy. Algorytm
 przybliżania jest koncepcyjnie znany. W projekcie wymagana jest wizualizacja
 2D aproksymacji linii łamanej.
 
+Licensed under the [MIT License](LICENSE)
+
 
 
