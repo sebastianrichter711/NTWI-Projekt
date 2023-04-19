@@ -20,6 +20,7 @@ zooming is conceptually known. In the project 2D visualization of approximation 
 git clone <URL_to_repository>
 ```
 You can copy a link to repository from the page of repo (click "Code" button and later copy a shown link).
+
 2. In a command line type following commands:
 ```js
 myenv\Scripts\activate
